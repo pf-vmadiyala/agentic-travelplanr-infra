@@ -41,3 +41,19 @@ module "iam_pod_identity" {
 
   depends_on = [module.eks] # associations need the cluster + pod-identity agent
 }
+
+module "bootstrap_argocd" {
+  source = "../../modules/bootstrap-argocd"
+
+  cluster_name     = module.eks.cluster_name
+  cluster_endpoint = module.eks.cluster_endpoint
+  cluster_ca_data  = module.eks.cluster_certificate_authority_data
+  region           = var.region
+  vpc_id           = module.vpc.vpc_id
+  gitops_repo_url  = "https://github.com/pf-vmadiyala/agentic-travelplanr-gitops.git"
+
+  depends_on = [
+    module.eks,
+    module.iam_pod_identity,
+  ]
+}

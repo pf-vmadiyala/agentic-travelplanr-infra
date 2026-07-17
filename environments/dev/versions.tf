@@ -6,6 +6,15 @@ terraform {
       source  = "hashicorp/aws",
       version = ">= 6.28.0"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.23.0"
+    }
+
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.13.1"
+    }
   }
 
   backend "s3" {
