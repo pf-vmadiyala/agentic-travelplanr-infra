@@ -1,0 +1,22 @@
+# .gitignore
+
+# Local hidden terraform directories (holds provider plugins)
+.terraform/
+
+# Terraform state files (local fallbacks)
+*.tfstate
+*.tfstate.*
+
+#Crash logs
+crash.log
+
+# Terraform configuration variables (may contain secrets)
+*.tfvars
+*.tfvars.json
+
+#local overrides
+override.tf
+override.tf.json
+
+# Internal Notes
+notes.txt
