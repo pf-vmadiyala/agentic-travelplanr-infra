@@ -23,8 +23,8 @@ module "api_pod_identity" {
 
   name = "${var.cluster_name}-api"
 
-  attach_custom_policy      = true
-  source_policy_documents   = [data.aws_iam_policy_document.secrets_read.json]
+  attach_custom_policy    = true
+  source_policy_documents = [data.aws_iam_policy_document.secrets_read.json]
 
   associations = {
     this = {
@@ -63,7 +63,7 @@ module "eso_pod_identity" {
   source  = "terraform-aws-modules/eks-pod-identity/aws"
   version = "~> 2.0"
 
-  name = "${var.cluster_name}-external-secrets"
+  name = "${var.cluster_name}-eso"
 
   attach_custom_policy    = true
   source_policy_documents = [data.aws_iam_policy_document.secrets_read.json]
@@ -86,7 +86,7 @@ module "lb_controller_pod_identity" {
 
   name = "${var.cluster_name}-aws-lbc"
 
-  attach_aws_lb_controller_policy = true   # module attaches the AWS-published policy
+  attach_aws_lb_controller_policy = true # module attaches the AWS-published policy
 
   associations = {
     this = {

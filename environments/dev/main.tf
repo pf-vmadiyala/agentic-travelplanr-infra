@@ -57,3 +57,10 @@ module "bootstrap_argocd" {
     module.iam_pod_identity,
   ]
 }
+
+
+
+module "ecr" {
+  source    = "../../modules/ecr"
+  repo_name = "travel-planner/app"
+}
