@@ -20,9 +20,9 @@ module "eks" {
   vpc_id          = module.vpc.vpc_id
   private_subnets = module.vpc.private_subnets
 
-  # Defaults cover dev; override here for prod
-  # system_instance_types = ["t3.medium"]
-  # app_instance_types    = ["t3.large"]
+  # Overrides for sandbox environment to use Free Tier eligible instances
+  system_instance_types = ["t3.small"]
+  app_instance_types    = ["t3.small"]
 }
 
 module "secrets" {
