@@ -47,9 +47,7 @@ resource "helm_release" "external_secrets" {
   ]
 }
 
-# ArgoCD — root App-of-Apps embedded in Helm values (single-apply safe).
-# Uses the chart's `server.additionalApplications` to declare the root app
-# inline, so there is NO kubernetes_manifest plan-time cluster dependency.
+# ArgoCD — root App-of-Apps.
 resource "helm_release" "argocd" {
   name             = "argocd"
   repository       = "https://argoproj.github.io/argo-helm"
@@ -60,31 +58,57 @@ resource "helm_release" "argocd" {
 
   values = [
     yamlencode({
-      # Declaratively create the root App-of-Apps via the chart itself.
       applicationSet = { enabled = false }
+    })
+  ]
+}
 
-      server = {
-        additionalApplications = [
-          {
-            name      = "root"
-            namespace = "argocd"
-            project   = "default"
-            source = {
-              repoURL        = var.gitops_repo_url
-              targetRevision = "main"
-              path           = "apps"
-            }
-            destination = {
-              server    = "https://kubernetes.default.svc"
-              namespace = "argocd"
-            }
-            syncPolicy = {
-              automated   = { prune = true, selfHeal = true }
-              syncOptions = ["CreateNamespace=true"]
-            }
+# Deploy the root App-of-Apps using the argocd-apps chart (no plan-time cluster dependency)
+resource "helm_release" "argocd_apps" {
+  name       = "argocd-apps"
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argocd-apps"
+  version    = "2.0.5"
+  namespace  = "argocd"
+
+  values = [
+    yamlencode({
+      applications = {
+        root = {
+          namespace = "argocd"
+          project   = "default"
+          source = {
+            repoURL        = var.gitops_repo_url
+            targetRevision = "main"
+            path           = "apps"
           }
-        ]
+          destination = {
+            server    = "https://kubernetes.default.svc"
+            namespace = "argocd"
+          }
+          syncPolicy = {
+            automated   = { prune = true, selfHeal = true }
+            syncOptions = ["CreateNamespace=true"]
+          }
+        }
       }
     })
   ]
+
+  depends_on = [helm_release.argocd]
+}
+
+# gp3 Storage Class for AWS EBS CSI driver
+resource "kubernetes_storage_class_v1" "gp3" {
+  metadata {
+    name = "gp3"
+  }
+
+  storage_provisioner    = "ebs.csi.aws.com"
+  volume_binding_mode    = "WaitForFirstConsumer"
+  allow_volume_expansion = true
+
+  parameters = {
+    type = "gp3"
+  }
 }

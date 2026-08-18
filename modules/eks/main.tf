@@ -56,13 +56,6 @@ module "eks" {
       desired_size   = var.system_desired_size
 
       labels = { role = "system" }
-      taints = {
-        dedicated = {
-          key    = "dedicated"
-          value  = "system"
-          effect = "NO_SCHEDULE"
-        }
-      }
     }
 
     # App pool: API, workers, Redis, Postgres (dev).
