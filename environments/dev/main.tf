@@ -1,3 +1,5 @@
+# Configures the Virtual Private Cloud (VPC) network infrastructure,
+# including public and private subnets across multiple AZs and a NAT gateway.
 module "vpc" {
   source = "../../modules/vpc"
 
@@ -10,6 +12,8 @@ module "vpc" {
 }
 
 
+# Provisions the Amazon EKS cluster and node groups within the VPC subnets,
+# configuring system and application node pools with small instances for development.
 module "eks" {
   source = "../../modules/eks"
 
@@ -25,6 +29,8 @@ module "eks" {
   app_instance_types    = ["t3.small"]
 }
 
+# Sets up AWS Secrets Manager to store application credentials and configuration
+# secrets with a prefix, configured for immediate deletion in the development environment.
 module "secrets" {
   source                  = "../../modules/secrets"
   name_prefix             = "agentic-travel-planner/dev"
@@ -32,6 +38,8 @@ module "secrets" {
 }
 
 
+# Configures EKS Pod Identity associations and IAM policies, mapping Kubernetes service accounts
+# in the application namespace to IAM roles to access Secrets Manager.
 module "iam_pod_identity" {
   source = "../../modules/iam-pod-identity"
 
@@ -42,6 +50,8 @@ module "iam_pod_identity" {
   depends_on = [module.eks] # associations need the cluster + pod-identity agent
 }
 
+# Bootstraps Argo CD in the EKS cluster, configuring the root GitOps application
+# that points to the travel planner GitOps repository for continuous deployment.
 module "bootstrap_argocd" {
   source = "../../modules/bootstrap-argocd"
 
@@ -60,6 +70,8 @@ module "bootstrap_argocd" {
 
 
 
+# Provisions an Amazon Elastic Container Registry (ECR) repository to store
+# docker container images for the travel planner application.
 module "ecr" {
   source    = "../../modules/ecr"
   repo_name = "travel-planner/app"
