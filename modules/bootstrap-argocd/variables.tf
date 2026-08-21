@@ -10,7 +10,7 @@ variable "cluster_ca_data" {
 }
 variable "region" {
   type    = string
-  default = "us-east-1"
+  default = "us-east-2"
 }
 variable "vpc_id" {
   type = string

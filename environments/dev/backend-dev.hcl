@@ -2,4 +2,4 @@
 
 bucket = "agentic-travel-planner-tfstate-12345"
 key    = "dev/terraform.tfstate"
-region = "us-east-1"
+region = "us-east-2"
