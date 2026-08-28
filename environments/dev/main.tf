@@ -76,3 +76,21 @@ module "ecr" {
   source    = "../../modules/ecr"
   repo_name = "travel-planner/app"
 }
+
+# ECR repository for the customer support agent image built by
+# `agentcore launch` (Strands agent running on Bedrock AgentCore Runtime).
+module "ecr_customer_support_agent" {
+  source    = "../../modules/ecr"
+  repo_name = "travel-planner/customer-support-agent"
+}
+
+# Deploys the customer support agent to Amazon Bedrock AgentCore Runtime.
+# Equivalent to: agentcore create --name CustomerSupport --framework Strands
+#                --model-provider Bedrock --memory none
+# (No memory resource is created here, matching --memory none.)
+module "agentcore_customer_support" {
+  source = "../../modules/agentcore"
+
+  agent_name    = "CustomerSupport"
+  container_uri = "${module.ecr_customer_support_agent.repository_url}:latest"
+}
