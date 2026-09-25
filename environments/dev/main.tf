@@ -18,7 +18,7 @@ module "eks" {
   source = "../../modules/eks"
 
   cluster_name       = "agentic-travel-planner-dev"
-  kubernetes_version = "1.31"
+  kubernetes_version = "1.35"
 
   # Consume VPC module outputs
   vpc_id          = module.vpc.vpc_id

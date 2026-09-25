@@ -25,13 +25,13 @@ variable "gitops_repo_url" {
 # Chart version pins — verify latest before apply
 variable "lb_controller_chart_version" {
   type    = string
-  default = "1.8.1"
+  default = "3.5.0"
 }
 variable "eso_chart_version" {
   type    = string
-  default = "0.9.19"
+  default = "2.11.0"
 }
 variable "argocd_chart_version" {
   type    = string
-  default = "7.6.12"
+  default = "10.9.2"
 }
