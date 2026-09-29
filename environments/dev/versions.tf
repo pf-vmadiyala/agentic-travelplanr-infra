@@ -30,4 +30,10 @@ variable "region" {
 }
 
 
+variable "eks_public_access_cidrs" {
+  description = "IPs allowed to reach the public EKS API endpoint (set in dev.tfvars)"
+  type        = list(string)
+}
+
+
 

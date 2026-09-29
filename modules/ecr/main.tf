@@ -1,8 +1,8 @@
 # modules/ecr/main.tf
 resource "aws_ecr_repository" "app" {
-  name                 = var.repo_name          # "travel-planner/app"
-  image_tag_mutability = "IMMUTABLE"            # SHA tags can't be overwritten
-  force_delete         = true                   # dev: destroy even with images (teardown)
+  name                 = var.repo_name # "travel-planner/app"
+  image_tag_mutability = "IMMUTABLE"   # SHA tags can't be overwritten
+  force_delete         = true          # dev: destroy even with images (teardown)
 
   image_scanning_configuration {
     scan_on_push = true
@@ -23,7 +23,7 @@ resource "aws_ecr_lifecycle_policy" "app" {
       description  = "Keep last 20 tagged images"
       selection = {
         tagStatus     = "tagged"
-        tagPrefixList = ["v", "sha"]  # broad; adjust to your tag scheme
+        tagPrefixList = ["v", "sha"] # broad; adjust to your tag scheme
         countType     = "imageCountMoreThan"
         countNumber   = 20
       }

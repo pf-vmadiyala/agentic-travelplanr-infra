@@ -27,6 +27,9 @@ module "eks" {
   # Overrides for sandbox environment to use Free Tier eligible instances
   system_instance_types = ["t3.small"]
   app_instance_types    = ["t3.small"]
+
+  # Only these IPs can reach the public EKS API endpoint; set in dev.tfvars.
+  endpoint_public_access_cidrs = var.eks_public_access_cidrs
 }
 
 # Sets up AWS Secrets Manager to store application credentials and configuration

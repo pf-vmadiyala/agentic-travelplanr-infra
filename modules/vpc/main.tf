@@ -23,12 +23,12 @@ module "vpc" {
   # Tag subnets so EKS auto-discovers where to launch public and private load balancers
   public_subnet_tags = {
     "kubernetes.io/cluster/${var.cluster_name}" = "shared"
-    "kubernetes.io/role/elb"                      = "1" # Required for public internet-facing ALBs
+    "kubernetes.io/role/elb"                    = "1" # Required for public internet-facing ALBs
   }
 
   private_subnet_tags = {
     "kubernetes.io/cluster/${var.cluster_name}" = "shared"
-    "kubernetes.io/role/internal-elb"             = "1" # Required for internal-only ALBs
+    "kubernetes.io/role/internal-elb"           = "1" # Required for internal-only ALBs
   }
 
   tags = {

@@ -26,8 +26,10 @@ module "eks" {
   name               = var.cluster_name
   kubernetes_version = var.kubernetes_version
 
-  # API endpoint access — restrict to your IP CIDR after bootstrap
-  endpoint_public_access = true
+  # Public API endpoint for kubectl/terraform from outside the VPC, limited to known IPs.
+  # Nodes and in-cluster controllers use the private endpoint (enabled by default).
+  endpoint_public_access       = true
+  endpoint_public_access_cidrs = var.endpoint_public_access_cidrs
 
   # Adds the Terraform caller as a cluster admin (needed to run kubectl)
   enable_cluster_creator_admin_permissions = true

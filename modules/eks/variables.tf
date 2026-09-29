@@ -103,3 +103,10 @@ variable "monitoring_max_pods" {
   type        = number
   default     = 58
 }
+
+
+variable "endpoint_public_access_cidrs" {
+  description = "CIDRs allowed to reach the public EKS API endpoint (nodes use the private endpoint)"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
