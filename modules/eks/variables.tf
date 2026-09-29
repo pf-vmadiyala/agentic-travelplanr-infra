@@ -76,3 +76,30 @@ variable "app_desired_size" {
   type        = number
   default     = 2
 }
+
+
+# --- Pods per node (prefix delegation) ---
+variable "system_max_pods" {
+  description = "kubelet maxPods for the system node group"
+  type        = number
+  default     = 29
+}
+
+variable "app_max_pods" {
+  description = "kubelet maxPods for the app node group"
+  type        = number
+  default     = 29
+}
+
+# --- Monitoring node group ---
+variable "monitoring_instance_types" {
+  description = "Instance types for the single-node monitoring group (Prometheus, Loki, Grafana)"
+  type        = list(string)
+  default     = ["m7i-flex.large"]
+}
+
+variable "monitoring_max_pods" {
+  description = "kubelet maxPods for the monitoring node group"
+  type        = number
+  default     = 58
+}
