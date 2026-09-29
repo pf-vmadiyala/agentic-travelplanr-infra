@@ -32,6 +32,7 @@ resource "helm_release" "aws_lb_controller" {
 
 # External Secrets Operator
 resource "helm_release" "external_secrets" {
+  depends_on       = [helm_release.aws_lb_controller]
   name             = "external-secrets"
   repository       = "https://charts.external-secrets.io"
   chart            = "external-secrets"
@@ -49,6 +50,7 @@ resource "helm_release" "external_secrets" {
 
 # ArgoCD — root App-of-Apps.
 resource "helm_release" "argocd" {
+  depends_on       = [helm_release.aws_lb_controller]
   name             = "argocd"
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
