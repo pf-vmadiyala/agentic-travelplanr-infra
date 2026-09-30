@@ -18,6 +18,8 @@ variable "secret_names" {
     "langsmith-api-key",
     "jwt-secret",
     "db-credentials",
+    "grafana-admin",
+    "alertmanager-notifiers"
   ]
 }
 
